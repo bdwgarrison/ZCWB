@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>MathematicaSrc.txt</file>
+        <file>MathematicaSrc2000.txt</file>
+    </qresource>
+</RCC>

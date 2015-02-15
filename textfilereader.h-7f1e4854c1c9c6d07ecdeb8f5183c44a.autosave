@@ -1,0 +1,81 @@
+#ifndef TEXTFILEREADER_H
+#define TEXTFILEREADER_H
+
+#include <QTextEdit>
+#include <QTextStream>
+#include <QFile>
+#include <QTableWidget>
+#include "workorderdatum.h"
+#include "qcustomplot.h"
+
+namespace ZC_WO_Reader{
+class TextFileReader;
+}
+
+namespace zwr = ZC_WO_Reader;
+class zwr::TextFileReader : public QWidget
+{
+    Q_OBJECT
+public:
+    explicit TextFileReader();
+    const QString& getDBPath() {return dbPath;}
+    const QString& getWOCompound() {return woCompound;}
+
+    QTableWidget* getChartForm() {return chartForm;}
+    QStringList dependentParametersUsed(QString &temp);
+    //void uploadData(QString woName, QString fileType, QString temp, DBStructure* wodb,QString layerCount);
+    void uploadData(QString woName, QString temp, DBStructure* wodb);
+    void uploadAndPrepGraphData(QString woName, QString temp, DBStructure* wodb);
+
+    virtual double formatIndepParam(QString);
+
+    virtual void formatXAxis() {return;}
+    void clearData();
+    virtual void setFilePath();
+signals:
+    void WOLoaded(TextFileReader*);
+    void emitParameterChart(QTableWidget*);
+
+    void graphIntSelected(int);
+public slots:
+    void toggleGraphVisibile();
+    void toggleChartVisibile();
+    void toggleTextVisibile();
+
+    void readFile(QString, DBStructure*);
+    void mathematicaOutput();
+    void tfCalcOutput();
+    void interpOutput();
+
+    void graphData();
+    void selectionChanged();
+    void highlightGraphInt(int unused,int k);
+
+    void setGraphVisible(bool b) {graphForm->setVisible(b);}
+    void setChartVisible(bool b){chartForm->setVisible(b);}
+    void setTextVisible(bool b){textForm->setVisible(b);}
+
+    void toggleGraphVisibility(int unused,int k);//{ graphForm->graph(k)->setVisible( ~(graphForm->graph(k)->visible()) );}
+
+    virtual void writeTextToFile()=0;
+protected:
+    QString fileType;
+    QString woCompound;
+    QString woFolderPath;
+    QString woFileName;
+    QFile woFile;
+
+
+    QTableWidget* chartForm;
+    QTextEdit* textForm;
+    QCustomPlot* graphForm;
+
+    QVector<QVector<double> > data;
+    QStringList depParams;
+    DBStructure* WODB;
+
+    int indepParamCount;
+    QString indepParam;
+};
+
+#endif // TEXTFILEREADER_H

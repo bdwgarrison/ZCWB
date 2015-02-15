@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/AlStd">
+        <file>alstd.txt</file>
+        <file>alstd_0129_1.txt</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>0270FS5std.txt</file>
+        <file>0270FS1std.txt</file>
+    </qresource>
+</RCC>
